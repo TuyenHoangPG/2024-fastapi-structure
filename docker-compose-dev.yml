@@ -1,0 +1,60 @@
+version: '3'
+services:
+  api-dev:
+    build: .
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python3 -m alembic upgrade head
+        python3 -m uvicorn src.main:app --host 0.0.0.0
+    container_name: ${APP_NAME}-${APP_ENV}-api
+    image: ${APP_NAME}-api-${APP_ENV}:latest
+    volumes:
+      - ./src:/structure-demo/src
+      - ./logs:/structure-demo/logs
+      - ./backups:/structure-demo/backups
+    ports:
+      - 8001:8000
+    environment:
+      - APP_ENV=${APP_ENV}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - internal_network
+
+  postgres:
+    container_name: ${APP_NAME}-postgres
+    image: postgres:12
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    networks:
+      - internal_network
+
+  redis:
+    container_name: ${APP_NAME}-redis
+    image: redis:6.2-alpine
+    restart: always
+    volumes:
+      - redis:/data
+    ports:
+      - 6380:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    networks:
+      - internal_network
+
+volumes:
+  postgres:
+  redis:
+
+networks:
+  internal_network:

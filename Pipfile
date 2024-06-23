@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+pydantic = "*"
+python-dotenv = "*"
+redis = "*"
+boto3 = "*"
+celery = "*"
+asyncpg = "*"
+sqlalchemy = "*"
+alembic = "*"
+passlib = "*"
+bcrypt = "*"
+loguru = "*"
+asgi-correlation-id = "*"
+pyjwt = "*"
+fastapi-mail = "*"
+jinja2 = "*"
+werkzeug = "*"
+
+[dev-packages]
+black = "*"
+pylint = "*"
+
+[requires]
+python_version = "3.12"

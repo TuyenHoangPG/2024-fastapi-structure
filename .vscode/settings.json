@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+  }
+}
